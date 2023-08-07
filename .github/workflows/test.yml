@@ -52,5 +52,6 @@ jobs:
           ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts
           (ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
             cd orangehrm
-            docker-compose -f ./compose.yml up -d
+            sudo docker compose up -d
+            sudo docker ps
           ')
