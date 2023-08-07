@@ -12,7 +12,7 @@ jobs:
          uses: actions/checkout@v2
 
        - uses: actions/checkout@v3
-       - name: Stop & Remove Existing Containers & Delete Image on EC2
+       - name: SSH into EC2 Intance
          env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.PUBLIC_HOST_DNS }}
@@ -41,8 +41,16 @@ jobs:
           ')
           
        - name: Deploy Application & Database
+         env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.PUBLIC_HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
          run: |
-            (ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts
+          (ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
             cd orangehrm
             docker-compose -f ./compose.yml up -d
-            ')
+          ')
