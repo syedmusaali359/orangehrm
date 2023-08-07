@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-        - 5.1
+        - remotes/origin/5.1
 jobs: 
   SSH-into-instance:
     runs-on: ubuntu-latest
