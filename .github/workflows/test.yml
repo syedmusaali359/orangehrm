@@ -42,6 +42,7 @@ jobs:
           
        - name: Deploy Application & Database
          run: |
-            ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
+            (ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
             cd orangehrm
             docker-compose -f ./compose.yml up -d
+            ')
