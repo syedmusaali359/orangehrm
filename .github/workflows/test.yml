@@ -25,3 +25,4 @@ jobs:
           (ssh -i ~/.ssh/id_rsa -o "StrictHostKeyChecking=no" "$REMOTE_USER@$REMOTE_HOST" '
             git clone https://github.com/syedmusaali359/orangehrm.git
           ')
+          
